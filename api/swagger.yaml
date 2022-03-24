@@ -1,0 +1,654 @@
+definitions:
+  request.BlogCategoryForm:
+    description: name is Required;
+    properties:
+      description:
+        example: this is test-category
+        type: string
+      name:
+        example: test-category
+        type: string
+    type: object
+  request.BlogPostForm:
+    description: title,content,status is Required; status 1:draft; 2:pending; 3:private;
+      4:publish
+    properties:
+      categories:
+        example:
+        - test-category
+        items:
+          type: string
+        type: array
+      content:
+        example: '{"block":"something"}'
+        type: string
+      status:
+        example: 2
+        type: integer
+      summary:
+        example: This is first post
+        type: string
+      tags:
+        example:
+        - test-tag
+        items:
+          type: string
+        type: array
+      title:
+        example: Hello World
+        type: string
+    required:
+    - content
+    - status
+    - title
+    type: object
+  request.BlogTagForm:
+    description: name is Required;
+    properties:
+      description:
+        example: this is test-tag
+        type: string
+      name:
+        example: test-tag
+        type: string
+    type: object
+  response.BlogCategoryResult:
+    properties:
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  response.BlogPostResult:
+    properties:
+      categories:
+        items:
+          type: string
+        type: array
+      content:
+        type: string
+      id:
+        type: integer
+      status:
+        type: integer
+      summary:
+        type: string
+      tags:
+        items:
+          type: string
+        type: array
+      title:
+        type: string
+    type: object
+  response.BlogTagResult:
+    properties:
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  util.JsonResponse:
+    properties:
+      message:
+        example: OK
+        type: string
+      result: {}
+      status:
+        example: 200
+        type: integer
+    type: object
+  util.Paginate:
+    properties:
+      current_page:
+        type: integer
+      data: {}
+      per_page:
+        type: integer
+      total:
+        type: integer
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+paths:
+  /admin/blog/v1/categories:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: page
+        type: integer
+      - in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/util.JsonResponse'
+            - properties:
+                result:
+                  allOf:
+                  - $ref: '#/definitions/util.Paginate'
+                  - properties:
+                      data:
+                        items:
+                          $ref: '#/definitions/response.BlogCategoryResult'
+                        type: array
+                    type: object
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.JsonResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.JsonResponse'
+      security:
+      - bearerAuth: []
+      summary: category list
+      tags:
+      - admin/blog
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Body
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.BlogCategoryForm'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.JsonResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.JsonResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.JsonResponse'
+      security:
+      - bearerAuth: []
+      summary: create category
+      tags:
+      - admin/blog
+  /admin/blog/v1/categories/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: BlogCategories ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.JsonResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.JsonResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.JsonResponse'
+      security:
+      - bearerAuth: []
+      summary: delete categories
+      tags:
+      - admin/blog
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: BlogCategory ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/util.JsonResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/response.BlogCategoryResult'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.JsonResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.JsonResponse'
+      security:
+      - bearerAuth: []
+      summary: get single category
+      tags:
+      - admin/blog
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: BlogCategory ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Body
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.BlogCategoryForm'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.JsonResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.JsonResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.JsonResponse'
+      security:
+      - bearerAuth: []
+      summary: modify category
+      tags:
+      - admin/blog
+  /admin/blog/v1/posts:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - in: query
+        name: category
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: page
+        type: integer
+      - in: query
+        name: search
+        type: string
+      - in: query
+        name: tag
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/util.JsonResponse'
+            - properties:
+                result:
+                  allOf:
+                  - $ref: '#/definitions/util.Paginate'
+                  - properties:
+                      data:
+                        items:
+                          $ref: '#/definitions/response.BlogPostResult'
+                        type: array
+                    type: object
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.JsonResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.JsonResponse'
+      security:
+      - bearerAuth: []
+      summary: post list
+      tags:
+      - admin/blog
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Body
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.BlogPostForm'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.JsonResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.JsonResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.JsonResponse'
+      security:
+      - bearerAuth: []
+      summary: create post
+      tags:
+      - admin/blog
+  /admin/blog/v1/posts/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: BlogPost ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.JsonResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.JsonResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.JsonResponse'
+      security:
+      - bearerAuth: []
+      summary: delete post
+      tags:
+      - admin/blog
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: BlogPost ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/util.JsonResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/response.BlogPostResult'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.JsonResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.JsonResponse'
+      security:
+      - bearerAuth: []
+      summary: get single post
+      tags:
+      - admin/blog
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: BlogPost ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Body
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.BlogPostForm'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.JsonResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.JsonResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.JsonResponse'
+      security:
+      - bearerAuth: []
+      summary: modify post
+      tags:
+      - admin/blog
+  /admin/blog/v1/tags:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: page
+        type: integer
+      - in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/util.JsonResponse'
+            - properties:
+                result:
+                  allOf:
+                  - $ref: '#/definitions/util.Paginate'
+                  - properties:
+                      data:
+                        items:
+                          $ref: '#/definitions/response.BlogTagResult'
+                        type: array
+                    type: object
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.JsonResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.JsonResponse'
+      security:
+      - bearerAuth: []
+      summary: tag list
+      tags:
+      - admin/blog
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Body
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.BlogTagForm'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.JsonResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.JsonResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.JsonResponse'
+      security:
+      - bearerAuth: []
+      summary: create tag
+      tags:
+      - admin/blog
+  /admin/blog/v1/tags/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: BlogTag ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.JsonResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.JsonResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.JsonResponse'
+      security:
+      - bearerAuth: []
+      summary: delete tag
+      tags:
+      - admin/blog
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: BlogTag ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/util.JsonResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/response.BlogTagResult'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.JsonResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.JsonResponse'
+      security:
+      - bearerAuth: []
+      summary: get single tag
+      tags:
+      - admin/blog
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: BlogTags ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Body
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.BlogTagForm'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.JsonResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.JsonResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.JsonResponse'
+      security:
+      - bearerAuth: []
+      summary: modify tag
+      tags:
+      - admin/blog
+securityDefinitions:
+  bearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
