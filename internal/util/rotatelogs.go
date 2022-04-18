@@ -1,8 +1,9 @@
 package util
 
 import (
-	"ArtistHome/internal/global"
 	"os"
+
+	"github.com/GanymedeNil/GoFrameworkBase/internal/global"
 
 	"github.com/natefinch/lumberjack"
 	"go.uber.org/zap/zapcore"

@@ -1,11 +1,12 @@
 package service
 
 import (
-	"ArtistHome/internal/global"
-	"ArtistHome/internal/model"
-	"ArtistHome/internal/request"
-	"ArtistHome/internal/response"
 	"errors"
+
+	"github.com/GanymedeNil/GoFrameworkBase/internal/global"
+	"github.com/GanymedeNil/GoFrameworkBase/internal/model"
+	"github.com/GanymedeNil/GoFrameworkBase/internal/request"
+	"github.com/GanymedeNil/GoFrameworkBase/internal/response"
 
 	"go.uber.org/zap"
 	"gorm.io/gorm"

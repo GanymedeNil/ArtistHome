@@ -1,7 +1,7 @@
 package main
 
 import (
-	"ArtistHome/internal/core"
+	"github.com/GanymedeNil/GoFrameworkBase/internal/core"
 )
 
 // @host      localhost:8080

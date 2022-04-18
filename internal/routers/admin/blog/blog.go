@@ -1,7 +1,7 @@
 package blog
 
 import (
-	"ArtistHome/internal/controller/v1/admin/blog"
+	"github.com/GanymedeNil/GoFrameworkBase/internal/controller/v1/admin/blog"
 
 	"github.com/gin-gonic/gin"
 )

@@ -4,7 +4,7 @@ type Zap struct {
 	Level         string `mapstructure:"level" json:"level" yaml:"level"`
 	Format        string `mapstructure:"format" json:"format" yaml:"format"`
 	Prefix        string `mapstructure:"prefix" json:"prefix" yaml:"prefix"`
-	Director      string `mapstructure:"director" json:"director"  yaml:"director"`
+	Directory     string `mapstructure:"directory" json:"directory"  yaml:"directory"`
 	ShowLine      bool   `mapstructure:"show-line" json:"showLine" yaml:"showLine"`
 	EncodeLevel   string `mapstructure:"encode-level" json:"encodeLevel" yaml:"encode-level"`
 	StacktraceKey string `mapstructure:"stacktrace-key" json:"stacktraceKey" yaml:"stacktrace-key"`

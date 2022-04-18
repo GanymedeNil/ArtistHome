@@ -1,7 +1,7 @@
 package response
 
 import (
-	"ArtistHome/internal/util"
+	"github.com/GanymedeNil/GoFrameworkBase/internal/util"
 )
 
 type BlogPostsResponse struct {

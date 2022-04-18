@@ -1,5 +1,5 @@
 app:
-  env: 'local'
+  env: 'dev'
   debug: true
   addr: ':8080'
 
@@ -13,12 +13,19 @@ mysql:
   max-idle-conns: 10
   max-open-conns: 100
 
+redis:
+  host: '127.0.0.1'
+  port: '6379'
+  username: ''
+  password: ''
+  db: 0
+
 zap:
   level: 'info'
   format: 'console'
   prefix: '[server]'
-  director: 'log'
+  directory: 'log'
   show-line: true
   encode-level: 'LowercaseColorLevelEncoder'
   stacktrace-key: 'stacktrace'
-  log-in-console: true
+  log-in-console: false

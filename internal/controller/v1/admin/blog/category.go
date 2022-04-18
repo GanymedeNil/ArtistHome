@@ -1,10 +1,11 @@
 package blog
 
 import (
-	"ArtistHome/internal/request"
-	"ArtistHome/internal/service"
-	"ArtistHome/internal/util"
 	"net/http"
+
+	"github.com/GanymedeNil/GoFrameworkBase/internal/request"
+	"github.com/GanymedeNil/GoFrameworkBase/internal/service"
+	"github.com/GanymedeNil/GoFrameworkBase/internal/util"
 
 	"github.com/gin-gonic/gin"
 )

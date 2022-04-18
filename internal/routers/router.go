@@ -1,8 +1,8 @@
 package routers
 
 import (
-	"ArtistHome/internal/routers/admin"
-	"ArtistHome/internal/routers/web"
+	"github.com/GanymedeNil/GoFrameworkBase/internal/routers/admin"
+	"github.com/GanymedeNil/GoFrameworkBase/internal/routers/web"
 
 	"github.com/gin-gonic/gin"
 )

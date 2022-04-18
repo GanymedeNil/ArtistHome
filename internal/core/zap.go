@@ -1,39 +1,51 @@
 package core
 
 import (
-	"ArtistHome/internal/global"
-	"ArtistHome/internal/util"
 	"fmt"
+	"os"
 	"time"
+
+	"github.com/GanymedeNil/GoFrameworkBase/internal/global"
+	"github.com/GanymedeNil/GoFrameworkBase/internal/util"
 
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
 
+var level zapcore.Level
+
 func Zap() {
-	debugPriority := zap.LevelEnablerFunc(func(level zapcore.Level) bool {
-		return level == zap.DebugLevel
-	})
-
-	infoPriority := zap.LevelEnablerFunc(func(level zapcore.Level) bool {
-		return level == zap.InfoLevel
-	})
-
-	warnPriority := zap.LevelEnablerFunc(func(level zapcore.Level) bool {
-		return level == zap.WarnLevel
-	})
-
-	errorPriority := zap.LevelEnablerFunc(func(level zapcore.Level) bool {
-		return level == zap.ErrorLevel
-	})
-	cores := [...]zapcore.Core{
-		getEncoderCore(fmt.Sprintf("./%s/server_debug.log", global.CONFIG.Zap.Director), debugPriority),
-		getEncoderCore(fmt.Sprintf("./%s/server_info.log", global.CONFIG.Zap.Director), infoPriority),
-		getEncoderCore(fmt.Sprintf("./%s/server_warn.log", global.CONFIG.Zap.Director), warnPriority),
-		getEncoderCore(fmt.Sprintf("./%s/server_error.log", global.CONFIG.Zap.Director), errorPriority),
+	if ok, _ := util.PathExists(global.CONFIG.Zap.Directory); !ok {
+		fmt.Printf("create %v directory\n", global.CONFIG.Zap.Directory)
+		_ = os.Mkdir(global.CONFIG.Zap.Directory, os.ModePerm)
 	}
-	logger := zap.New(zapcore.NewTee(cores[:]...), zap.AddCaller())
+	switch global.CONFIG.Zap.Level {
+	case "debug":
+		level = zap.DebugLevel
+	case "info":
+		level = zap.InfoLevel
+	case "warn":
+		level = zap.WarnLevel
+	case "error":
+		level = zap.ErrorLevel
+	case "dpanic":
+		level = zap.DPanicLevel
+	case "panic":
+		level = zap.PanicLevel
+	case "fatal":
+		level = zap.FatalLevel
+	default:
+		level = zap.InfoLevel
 
+	}
+
+	var logger *zap.Logger
+	if level == zap.DebugLevel || level == zap.ErrorLevel {
+		logger = zap.New(getEncoderCore(), zap.AddStacktrace(level))
+
+	} else {
+		logger = zap.New(getEncoderCore())
+	}
 	if global.CONFIG.Zap.ShowLine {
 		logger = logger.WithOptions(zap.AddCaller())
 	}
@@ -79,8 +91,8 @@ func getEncoder() zapcore.Encoder {
 }
 
 // getEncoderCore get Encoder zapcore.Core
-func getEncoderCore(fileName string, level zapcore.LevelEnabler) (core zapcore.Core) {
-	writer := util.GetWriteSyncer(fileName)
+func getEncoderCore() (core zapcore.Core) {
+	writer := util.GetWriteSyncer(fmt.Sprintf("./%s/server.log", global.CONFIG.Zap.Directory))
 	return zapcore.NewCore(getEncoder(), writer, level)
 }
 

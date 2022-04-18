@@ -1,7 +1,7 @@
 package web
 
 import (
-	"ArtistHome/internal/routers/web/blog"
+	"github.com/GanymedeNil/GoFrameworkBase/internal/routers/web/blog"
 
 	"github.com/gin-gonic/gin"
 )

@@ -1,9 +1,9 @@
 package main
 
 import (
-	"ArtistHome/internal/core"
-	"ArtistHome/internal/global"
-	"ArtistHome/internal/model"
+	"github.com/GanymedeNil/GoFrameworkBase/internal/core"
+	"github.com/GanymedeNil/GoFrameworkBase/internal/global"
+	"github.com/GanymedeNil/GoFrameworkBase/internal/model"
 
 	"golang.org/x/crypto/bcrypt"
 )

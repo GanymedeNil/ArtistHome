@@ -1,8 +1,9 @@
 package core
 
 import (
-	"ArtistHome/internal/global"
 	"fmt"
+
+	"github.com/GanymedeNil/GoFrameworkBase/internal/global"
 
 	"github.com/fsnotify/fsnotify"
 	"github.com/spf13/viper"

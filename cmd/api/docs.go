@@ -1,7 +1,7 @@
 package main
 
 import (
-	_ "ArtistHome/api"
+	_ "github.com/GanymedeNil/GoFrameworkBase/api"
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"

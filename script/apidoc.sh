@@ -1,1 +1,1 @@
-swag init -d "../cmd/main,../internal/controller,../internal/util,../internal/response,../internal/request"  -o "../api" --parseInternal --parseDependency --parseDepth 5
+swag init -d "../cmd/main"  -o "../api" --parseInternal --parseDependency --parseDepth 5

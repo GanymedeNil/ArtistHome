@@ -1,11 +1,12 @@
 package admin
 
 import (
-	"ArtistHome/internal/middleware"
-	"ArtistHome/internal/routers/admin/blog"
-	"ArtistHome/internal/routers/admin/user"
-	"ArtistHome/internal/util"
 	"net/http"
+
+	"github.com/GanymedeNil/GoFrameworkBase/internal/middleware"
+	"github.com/GanymedeNil/GoFrameworkBase/internal/routers/admin/blog"
+	"github.com/GanymedeNil/GoFrameworkBase/internal/routers/admin/user"
+	"github.com/GanymedeNil/GoFrameworkBase/internal/util"
 
 	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/gin-gonic/gin"

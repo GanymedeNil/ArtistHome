@@ -1,15 +1,16 @@
 package middleware
 
 import (
-	"ArtistHome/internal/global"
-	"ArtistHome/internal/model"
-	"ArtistHome/internal/request"
-	"ArtistHome/internal/response"
-	"ArtistHome/internal/service"
-	"ArtistHome/internal/util"
 	"errors"
 	"net/http"
 	"time"
+
+	"github.com/GanymedeNil/GoFrameworkBase/internal/global"
+	"github.com/GanymedeNil/GoFrameworkBase/internal/model"
+	"github.com/GanymedeNil/GoFrameworkBase/internal/request"
+	"github.com/GanymedeNil/GoFrameworkBase/internal/response"
+	"github.com/GanymedeNil/GoFrameworkBase/internal/service"
+	"github.com/GanymedeNil/GoFrameworkBase/internal/util"
 
 	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/gin-gonic/gin"
